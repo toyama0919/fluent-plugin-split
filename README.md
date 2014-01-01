@@ -4,9 +4,13 @@ Output Split String Plugin for fluentd
 
 ## Installation
 
-### td-agent
+### td-agent(Linux)
 
     /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-split
+
+### td-agent(Mac)
+
+    sudo /usr/local/Cellar/td-agent/1.1.XX/bin/fluent-gem install fluent-plugin-split
 
 ### fluentd only
 
@@ -27,7 +31,7 @@ keep_keys|keep keys(comma separator)
 
 Example:
 
-    <match tag>
+    <match foo.bar>
       type split
       output_tag split.keyword
       output_key keyword
