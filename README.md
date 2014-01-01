@@ -4,9 +4,13 @@ Output Split String Plugin for fluentd
 
 ## Installation
 
-Use RubyGems:
+### td-agent
 
     /usr/lib64/fluent/ruby/bin/fluent-gem install fluent-plugin-split
+
+### fluentd only
+
+    gem install fluent-plugin-split
 
 
 ## parameter
@@ -41,9 +45,9 @@ foo.bar {"keywords"=>"keyword1,keyword2,keyword3", "site" => "google", "user_id"
 then output becomes as below (indented):
 
 ```js
-split.keyword { "keyword":"keyword1", "site" => "google"}
-split.keyword { "keyword":"keyword2", "site" => "google"}
-split.keyword { "keyword":"keyword3", "site" => "google"}
+split.keyword { "keyword" => "keyword1", "site" => "google"}
+split.keyword { "keyword" => "keyword2", "site" => "google"}
+split.keyword { "keyword" => "keyword3", "site" => "google"}
 ```
 
 ## ChangeLog
