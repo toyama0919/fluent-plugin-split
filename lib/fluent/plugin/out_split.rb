@@ -20,7 +20,7 @@ module Fluent
       elsif @format == "tsv"
         @separator = '\t'
       elsif @format == "space"
-        @separator = ' '
+        @separator = /[\s　]/
       else
         @separator = @format
       end
