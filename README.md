@@ -21,11 +21,11 @@ Output Split String Plugin for fluentd
 
 param    |   value
 --------|------
-output_tag|output tag
-output_key|output split word key
-format|csv or tsv or space
-key_name|target key name
-keep_keys|keep keys(comma separator)
+output_tag|output tag(require)
+output_key|output split word key(require)
+format|csv or tsv or space(default csv)
+key_name|target key name(require)
+keep_keys|keep keys comma separator(optional)
 
 ## Configuration
 
