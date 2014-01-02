@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Fluent
   class SplitOutput < Output
     Fluent::Plugin.register_output('split', self)
