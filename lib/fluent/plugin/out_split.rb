@@ -28,6 +28,7 @@ module Fluent
 
     def emit(tag, es, chain)
       es.each { |time, record|
+        next if record[@key_name].nil?
         record[@key_name].split(@separator).each{|item|
           result = {@output_key => item}
           record.each {|key,value|
