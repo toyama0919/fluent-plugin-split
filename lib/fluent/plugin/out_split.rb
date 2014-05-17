@@ -9,18 +9,18 @@ module Fluent
 
     config_param :output_tag, :string
     config_param :output_key, :string
-    config_param :format, :string, :default => "csv"
+    config_param :format, :string, default: 'csv'
     config_param :key_name, :string
-    config_param :keep_keys, :string, :default => ""
+    config_param :keep_keys, :string, default: ''
 
     def configure(conf)
       super
-      @keep_keys_array = @keep_keys.split(",")
-      if @format == "csv"
+      @keep_keys_array = @keep_keys.split(',')
+      if @format == 'csv'
         @separator = ','
-      elsif @format == "tsv"
+      elsif @format == 'tsv'
         @separator = '\t'
-      elsif @format == "space"
+      elsif @format == 'space'
         @separator = /[\s　]/
       else
         @separator = @format
@@ -28,16 +28,16 @@ module Fluent
     end
 
     def emit(tag, es, chain)
-      es.each { |time, record|
+      es.each do |time, record|
         next if record[@key_name].nil?
-        record[@key_name].split(@separator).each{|item|
-          result = {@output_key => item}
-          record.each {|key,value|
+        record[@key_name].split(@separator).each do|item|
+          result = { @output_key => item }
+          record.each do|key, value|
             result[key] = value if @keep_keys_array.include?(key)
-          }
+          end
           Engine.emit(output_tag, time, result)
-        }
-      }
+        end
+      end
       chain.next
     rescue => e
       $log.warn e.message
