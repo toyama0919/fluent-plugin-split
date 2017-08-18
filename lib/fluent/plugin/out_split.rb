@@ -47,10 +47,11 @@ module Fluent
           router.emit(output_tag, time, result)
         end
       end
-      chain.next
     rescue => e
       log.warn e.message
       log.warn e.backtrace.join(', ')
+    ensure
+      chain.next
     end
   end
 end
