@@ -1,7 +1,12 @@
 # -*- encoding : utf-8 -*-
-module Fluent
+
+require 'fluent/plugin/output'
+
+module Fluent::Plugin
   class SplitOutput < Output
     Fluent::Plugin.register_output('split', self)
+
+    helpers :event_emitter
 
     # Define `router` method of v0.12 to support v0.10 or earlier
     unless method_defined?(:router)
@@ -36,7 +41,7 @@ module Fluent
       end
     end
 
-    def emit(tag, es, chain)
+    def process(tag, es)
       es.each do |time, record|
         next if record[@key_name].nil?
         record[@key_name].split(@separator).each do|item|
@@ -50,8 +55,6 @@ module Fluent
     rescue => e
       log.warn e.message
       log.warn e.backtrace.join(', ')
-    ensure
-      chain.next
     end
   end
 end
