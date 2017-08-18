@@ -8,6 +8,10 @@ module Fluent
       define_method("router") { Fluent::Engine }
     end
 
+    unless method_defined?(:log)
+      define_method(:log) { $log }
+    end
+
     def initialize
       super
     end
@@ -45,8 +49,8 @@ module Fluent
       end
       chain.next
     rescue => e
-      $log.warn e.message
-      $log.warn e.backtrace.join(', ')
+      log.warn e.message
+      log.warn e.backtrace.join(', ')
     end
   end
 end
