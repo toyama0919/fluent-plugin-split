@@ -1,7 +1,7 @@
 [![Build Status](https://secure.travis-ci.org/toyama0919/fluent-plugin-split.png?branch=master)](http://travis-ci.org/toyama0919/fluent-plugin-split)
 [![Gem Version](https://badge.fury.io/rb/fluent-plugin-split.svg)](http://badge.fury.io/rb/fluent-plugin-split)
 
-# fluent-plugin-split
+# fluent-plugin-split, a plugin for [Fluentd](http://fluentd.org)
 
 Output Split String Plugin for fluentd
 
