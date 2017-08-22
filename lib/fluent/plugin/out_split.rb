@@ -3,6 +3,15 @@ module Fluent
   class SplitOutput < Output
     Fluent::Plugin.register_output('split', self)
 
+    # Define `router` method of v0.12 to support v0.10 or earlier
+    unless method_defined?(:router)
+      define_method("router") { Fluent::Engine }
+    end
+
+    unless method_defined?(:log)
+      define_method(:log) { $log }
+    end
+
     def initialize
       super
     end
@@ -35,13 +44,14 @@ module Fluent
           record.each do|key, value|
             result[key] = value if @keep_keys_array.include?(key)
           end
-          Engine.emit(output_tag, time, result)
+          router.emit(output_tag, time, result)
         end
       end
-      chain.next
     rescue => e
-      $log.warn e.message
-      $log.warn e.backtrace.join(', ')
+      log.warn e.message
+      log.warn e.backtrace.join(', ')
+    ensure
+      chain.next
     end
   end
 end

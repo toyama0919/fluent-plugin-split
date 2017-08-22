@@ -7,7 +7,7 @@ class SplitOutputTest < Test::Unit::TestCase
   end
 
   def create_driver(conf = CONFIG, tag = 'test')
-    d = Fluent::Test::BufferedOutputTestDriver.new(Fluent::SplitOutput, tag).configure(conf)
+    d = Fluent::Test::OutputTestDriver.new(Fluent::SplitOutput, tag).configure(conf)
     d
   end
 
@@ -67,5 +67,25 @@ class SplitOutputTest < Test::Unit::TestCase
         key_name keywords
       ]
     end
+  end
+
+  def test_emits
+    tag = "split.keyword"
+    d = create_driver %[
+      type split
+      output_tag #{tag}
+      output_key keyword
+      format csv
+      key_name keywords
+      keep_keys site
+    ], "test.split"
+
+    time = Time.now.to_i
+    d.run {
+      d.emit({"keywords"=>"keyword1,keyword2,keyword3", "site" => "google", "user_id" => "1"}, time)
+    }
+    assert_equal [[tag, time, {"keyword"=>"keyword1", "site"=>"google"}],
+                  [tag, time, {"keyword"=>"keyword2", "site"=>"google"}],
+                  [tag, time, {"keyword"=>"keyword3", "site"=>"google"}]], d.emits
   end
 end
