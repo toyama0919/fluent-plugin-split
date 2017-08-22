@@ -6,8 +6,8 @@ class SplitOutputTest < Test::Unit::TestCase
     Fluent::Test.setup
   end
 
-  def create_driver(conf = CONFIG, tag = 'test')
-    d = Fluent::Test::OutputTestDriver.new(Fluent::SplitOutput, tag).configure(conf)
+  def create_driver(conf = CONFIG)
+    d = Fluent::Test::Driver::Output.new(Fluent::Plugin::SplitOutput).configure(conf)
     d
   end
 
@@ -78,14 +78,14 @@ class SplitOutputTest < Test::Unit::TestCase
       format csv
       key_name keywords
       keep_keys site
-    ], "test.split"
+    ]
 
-    time = Time.now.to_i
-    d.run {
-      d.emit({"keywords"=>"keyword1,keyword2,keyword3", "site" => "google", "user_id" => "1"}, time)
+    time = event_time
+    d.run(default_tag: "test.split") {
+      d.feed(time, {"keywords"=>"keyword1,keyword2,keyword3", "site" => "google", "user_id" => "1"})
     }
     assert_equal [[tag, time, {"keyword"=>"keyword1", "site"=>"google"}],
                   [tag, time, {"keyword"=>"keyword2", "site"=>"google"}],
-                  [tag, time, {"keyword"=>"keyword3", "site"=>"google"}]], d.emits
+                  [tag, time, {"keyword"=>"keyword3", "site"=>"google"}]], d.events
   end
 end
