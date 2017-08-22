@@ -3,7 +3,7 @@ $:.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name        = "fluent-plugin-split"
-  gem.version     = "0.0.3"
+  gem.version     = "0.1.0"
   gem.authors     = ["Hiroshi Toyama"]
   gem.email       = "toyama0919@gmail.com"
   gem.homepage    = "https://github.com/toyama0919/fluent-plugin-split"
